@@ -1,4 +1,4 @@
-﻿
+
 // MFCApplication2Dlg.h: 头文件
 //
 
@@ -33,6 +33,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedOk();
-	afx_msg void OnBnClickedButton1();
-	void OnSize(UINT nType, int cx, int cy);
+afx_msg void OnBnClickedButton1();
+afx_msg void OnBnClickedButtonTime();
+void OnSize(UINT nType, int cx, int cy);
 };
