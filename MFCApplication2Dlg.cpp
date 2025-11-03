@@ -1,4 +1,4 @@
-﻿
+
 // MFCApplication2Dlg.cpp: 实现文件
 //
 
@@ -68,6 +68,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication2Dlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDOK, &CMFCApplication2Dlg::OnBnClickedOk)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMFCApplication2Dlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON_TIME, &CMFCApplication2Dlg::OnBnClickedButtonTime)
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
@@ -193,5 +194,24 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 	p->ModifyStyle(0xf, SS_BITMAP | SS_CENTERIMAGE);
 	//将图片设置到Picture控件上
 	p->SetBitmap(bitmap);
+}
+
+void CMFCApplication2Dlg::OnBnClickedButtonTime()
+{
+	// 获取当前时间
+	CTime currentTime = CTime::GetCurrentTime();
+	
+	// 格式化时间字符串
+	CString timeStr;
+	timeStr.Format(_T("当前时间：%Y年%m月%d日 %H:%M:%S"), 
+		currentTime.GetYear(), 
+		currentTime.GetMonth(), 
+		currentTime.GetDay(), 
+		currentTime.GetHour(), 
+		currentTime.GetMinute(), 
+		currentTime.GetSecond());
+	
+	// 弹出消息框显示时间
+	AfxMessageBox(timeStr, MB_OK | MB_ICONINFORMATION, 0);
 }
 
