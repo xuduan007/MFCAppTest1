@@ -1,4 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
+//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ 生成的包含文件。
 // 供 MFCApplication2.rc 使用
 //
@@ -11,6 +11,9 @@
 #define IDB_BITMAP1                     129
 #define IDC_SHOW                        1000
 #define IDC_BUTTON1                     1001
+#define IDC_BUTTON_PROCESS              1002
+#define IDD_PROCESS_DIALOG              103
+#define IDC_STATIC_PROCESS              1003
 
 // Next default values for new objects
 // 
