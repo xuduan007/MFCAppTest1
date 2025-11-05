@@ -8,6 +8,7 @@
 #include "MFCApplication2Dlg.h"
 #include "afxdialogex.h"
 #include <afxtempl.h>
+#include <tlhelp32.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -68,6 +69,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication2Dlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDOK, &CMFCApplication2Dlg::OnBnClickedOk)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMFCApplication2Dlg::OnBnClickedButton1)
+ON_BN_CLICKED(IDC_BUTTON_PROCESS, &CMFCApplication2Dlg::OnBnClickedButtonProcess)
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
@@ -193,5 +195,56 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 	p->ModifyStyle(0xf, SS_BITMAP | SS_CENTERIMAGE);
 	//将图片设置到Picture控件上
 	p->SetBitmap(bitmap);
+}
+
+void CMFCApplication2Dlg::OnBnClickedButtonProcess()
+{
+	// 创建进程快照
+	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (hSnapshot == INVALID_HANDLE_VALUE)
+	{
+		AfxMessageBox(_T("无法创建进程快照"), MB_OK | MB_ICONERROR);
+		return;
+	}
+
+	PROCESSENTRY32 pe32;
+	pe32.dwSize = sizeof(PROCESSENTRY32);
+
+	// 获取第一个进程
+	if (!Process32First(hSnapshot, &pe32))
+	{
+		CloseHandle(hSnapshot);
+		AfxMessageBox(_T("无法获取进程信息"), MB_OK | MB_ICONERROR);
+		return;
+	}
+
+	CString strProcessList;
+	strProcessList = _T("当前系统进程列表：\n\n");
+
+	// 遍历所有进程
+	do
+	{
+		CString strTemp;
+		strTemp.Format(_T("进程名称：%s\n进程ID：%d\n\n"), pe32.szExeFile, pe32.th32ProcessID);
+		strProcessList += strTemp;
+	} while (Process32Next(hSnapshot, &pe32));
+
+	// 关闭快照句柄
+	CloseHandle(hSnapshot);
+
+	// 创建一个新的对话框来显示进程列表
+	CDialogEx dlg;
+	dlg.Create(IDD_PROCESS_DIALOG, this);
+
+	// 获取对话框上的静态文本控件
+	CWnd* pStatic = dlg.GetDlgItem(IDC_STATIC_PROCESS);
+	if (pStatic != nullptr)
+	{
+		// 设置静态文本控件的内容为进程列表
+		pStatic->SetWindowText(strProcessList);
+	}
+
+	// 显示对话框
+	dlg.DoModal();
 }
 
