@@ -6,6 +6,7 @@
 #include "framework.h"
 #include "MFCApplication2.h"
 #include "MFCApplication2Dlg.h"
+#include "ProcessDialog.h"
 #include "afxdialogex.h"
 #include <afxtempl.h>
 #include <tlhelp32.h>
@@ -233,16 +234,8 @@ void CMFCApplication2Dlg::OnBnClickedButtonProcess()
 	CloseHandle(hSnapshot);
 
 	// 创建一个新的对话框来显示进程列表
-	CDialogEx dlg;
-	dlg.Create(IDD_PROCESS_DIALOG, this);
-
-	// 获取对话框上的静态文本控件
-	CWnd* pStatic = dlg.GetDlgItem(IDC_STATIC_PROCESS);
-	if (pStatic != nullptr)
-	{
-		// 设置静态文本控件的内容为进程列表
-		pStatic->SetWindowText(strProcessList);
-	}
+	CProcessDialog dlg;
+	dlg.m_strProcessList = strProcessList;
 
 	// 显示对话框
 	dlg.DoModal();
