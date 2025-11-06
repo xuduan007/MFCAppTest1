@@ -1,4 +1,4 @@
-﻿
+
 // MFCApplication2Dlg.cpp: 实现文件
 //
 
@@ -6,6 +6,7 @@
 #include "framework.h"
 #include "MFCApplication2.h"
 #include "MFCApplication2Dlg.h"
+#include "RandomDialog.h"
 #include "afxdialogex.h"
 #include <afxtempl.h>
 
@@ -53,8 +54,9 @@ END_MESSAGE_MAP()
 
 CMFCApplication2Dlg::CMFCApplication2Dlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFCAPPLICATION2_DIALOG, pParent)
-{
+{ 
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_pRandomDialog = nullptr;
 }
 
 void CMFCApplication2Dlg::DoDataExchange(CDataExchange* pDX)
@@ -68,6 +70,8 @@ BEGIN_MESSAGE_MAP(CMFCApplication2Dlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDOK, &CMFCApplication2Dlg::OnBnClickedOk)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMFCApplication2Dlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CMFCApplication2Dlg::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, &CMFCApplication2Dlg::OnBnClickedButton3)
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
@@ -193,5 +197,29 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 	p->ModifyStyle(0xf, SS_BITMAP | SS_CENTERIMAGE);
 	//将图片设置到Picture控件上
 	p->SetBitmap(bitmap);
+}
+
+void CMFCApplication2Dlg::OnBnClickedButton2()
+{
+	// 创建并显示非模态对话框
+	if (m_pRandomDialog == nullptr || m_pRandomDialog->m_hWnd == nullptr)
+	{
+		m_pRandomDialog = new CRandomDialog(this, this);
+		m_pRandomDialog->Create(IDD_RANDOM_DIALOG, this);
+	}
+	m_pRandomDialog->ShowWindow(SW_SHOW);
+	m_pRandomDialog->SetForegroundWindow();
+}
+
+void CMFCApplication2Dlg::OnBnClickedButton3()
+{
+	// 创建并显示非模态对话框
+	if (m_pRandomDialog == nullptr || m_pRandomDialog->m_hWnd == nullptr)
+	{
+		m_pRandomDialog = new CRandomDialog(this, this);
+		m_pRandomDialog->Create(IDD_RANDOM_DIALOG, this);
+	}
+	m_pRandomDialog->ShowWindow(SW_SHOW);
+	m_pRandomDialog->SetForegroundWindow();
 }
 
